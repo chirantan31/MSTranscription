@@ -42,7 +42,14 @@ namespace MSTranscription
             {
                 int newDuration = Convert.ToInt32(subLength * curDuration.TotalMilliseconds / tempCaption.Length);
                 int index = tempCaption.IndexOf(' ', subLength);
-                string caption = tempCaption.Substring(0, index);
+                string caption;
+                if (index == -1)
+                {
+                    caption = tempCaption;
+                } else
+                {
+                    caption = tempCaption.Substring(0, index);
+                }
                 tempCaption = tempCaption.Substring(index);
                 curEnd = curBegin.Add(new TimeSpan(0, 0, 0, 0, newDuration));
                 subs.Add(new Sub
