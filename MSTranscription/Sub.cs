@@ -46,11 +46,12 @@ namespace MSTranscription
                 if (index == -1)
                 {
                     caption = tempCaption;
-                } else
+                }
+                else
                 {
                     caption = tempCaption.Substring(0, index);
-                }
-                tempCaption = tempCaption.Substring(index);
+                    tempCaption = tempCaption.Substring(index);
+                }                
                 curEnd = curBegin.Add(new TimeSpan(0, 0, 0, 0, newDuration));
                 subs.Add(new Sub
                 {
