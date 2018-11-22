@@ -46,6 +46,7 @@ namespace MSTranscription
                 if (index == -1)
                 {
                     caption = tempCaption;
+                    tempCaption = "";
                 }
                 else
                 {
