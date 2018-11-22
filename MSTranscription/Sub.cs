@@ -52,6 +52,7 @@ namespace MSTranscription
                 {
                     caption = tempCaption.Substring(0, index);
                     tempCaption = tempCaption.Substring(index);
+                    tempCaption = tempCaption.Trim();
                 }                
                 curEnd = curBegin.Add(new TimeSpan(0, 0, 0, 0, newDuration));
                 subs.Add(new Sub
