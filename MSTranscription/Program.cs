@@ -22,7 +22,7 @@ namespace MSTranscription
             var config = SpeechConfig.FromSubscription(subscriptionKey, subscriptionRegion);
 
             var stopRecognition = new TaskCompletionSource<int>();
-
+            bool fileWritten = false;
             // Create an audio stream from a wav file.
             // Replace with your own audio file name.
             using (var audioInput = Helper.OpenWavFile(file))
@@ -66,9 +66,14 @@ namespace MSTranscription
                         if (e.Reason == CancellationReason.Error)
                         {
                             Console.WriteLine($"CANCELED: ErrorDetails={e.ErrorDetails}");
-                            Console.WriteLine($"CANCELED: Did you update the subscription info?");
                         }
                         stopRecognition.TrySetResult(0);
+                        if(!fileWritten)
+                        {
+                            Sub.GenerateSrtFile(subs, file);
+                            Sub.GenerateWebVTTFile(subs, file);
+                        }
+                        fileWritten = true;
                     };
 
                     recognizer.SessionStarted += (s, e) =>
@@ -83,6 +88,7 @@ namespace MSTranscription
                         stopRecognition.TrySetResult(0);
                         Sub.GenerateSrtFile(subs, file);
                         Sub.GenerateWebVTTFile(subs, file);
+                        fileWritten = true;
                     };
 
                     // Starts continuous recognition. Uses StopContinuousRecognitionAsync() to stop recognition.

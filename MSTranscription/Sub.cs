@@ -100,7 +100,7 @@ namespace MSTranscription
             {
 
                 //Pass the filepath and filename to the StreamWriter Constructor
-                StreamWriter sw = new StreamWriter(srtFile, true, System.Text.Encoding.UTF8);
+                StreamWriter sw = new StreamWriter(srtFile, false, System.Text.Encoding.UTF8);
                 //Write a line of text
                 sw.WriteLine(Subtitle);
                 //Close the file
