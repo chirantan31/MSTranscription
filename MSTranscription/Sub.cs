@@ -35,14 +35,16 @@ namespace MSTranscription
             List<Sub> subs = new List<Sub>();
             int length = sub.Caption.Length;
             string tempCaption = sub.Caption;
+            string caption;
+            int newDuration;
             TimeSpan curBegin = sub.Begin;
             TimeSpan curDuration = sub.End.Subtract(sub.Begin);
             TimeSpan curEnd;
             while (tempCaption.Length > subLength)
             {
-                int newDuration = Convert.ToInt32(subLength * curDuration.TotalMilliseconds / tempCaption.Length);
+                newDuration = Convert.ToInt32(subLength * curDuration.TotalMilliseconds / tempCaption.Length);
                 int index = tempCaption.IndexOf(' ', subLength);
-                string caption;
+                
                 if (index == -1)
                 {
                     caption = tempCaption;
@@ -62,6 +64,20 @@ namespace MSTranscription
                     Caption = caption
                 });
                 Console.WriteLine(caption);
+                curBegin = curEnd;
+                curDuration = sub.End.Subtract(curBegin);
+            }
+            if (tempCaption.Length > 0)
+            {
+                newDuration = Convert.ToInt32(subLength * curDuration.TotalMilliseconds / tempCaption.Length);
+                curEnd = curBegin.Add(new TimeSpan(0, 0, 0, 0, newDuration));
+                subs.Add(new Sub
+                {
+                    Begin = curBegin,
+                    End = curEnd,
+                    Caption = tempCaption
+                });
+                Console.WriteLine(tempCaption);
                 curBegin = curEnd;
                 curDuration = sub.End.Subtract(curBegin);
             }
